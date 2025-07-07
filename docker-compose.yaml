@@ -1,29 +1,51 @@
 services:
   elasticsearch:
+    container_name: elasticsearch
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
     image: elasticsearch:7.17.17
     environment:
       - discovery.type=single-node
+      # - xpack.security.enabled=true
+      # - ELASTIC_PASSWORD=changeme # Set the password for the 'elastic' user
     ports:
       - "9200:9200"
     networks:
       - elastic
 
-  apm-server:
+  apm:
+    container_name: apm-server
+    volumes:
+      - ./apm-server/data:/usr/share/apm-server/data
     image: elastic/apm-server:7.17.17
     ports:
       - "8200:8200"
+    environment:
+      - ELASTIC_APM_SERVER_SECRET_TOKEN=my_secret_token
     networks:
       - elastic
     # volumes:
     #   - .\apm-server:/usr/share/apm-server
-    command: --strict.perms=false
+    # command: --strict.perms=false
 
   kibana:
+    container_name: kibana
     image: kibana:7.17.17
+    volumes:
+      - ./kibana/config:/usr/share/kibana/config
+      # - ./kibana/plugins:/usr/share/kibana/plugins
+      # - ./kibana/node_modules:/usr/share/kibana/node_modules
+      - ./kibana/data:/usr/share/kibana/data
+    # environment:
+    #   - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    #   - ELASTICSEARCH_USERNAME=elastic
+    #   - ELASTICSEARCH_PASSWORD=changeme
+    #   - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=3f8d9e2b6c4a7f1e8d9b2c6a4f7e1d3b
     ports:
       - "5601:5601"
     networks:
       - elastic
+
 networks:
   elastic:
     driver: bridge

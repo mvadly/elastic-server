@@ -1,0 +1,6 @@
+elasticsearch/data
+apm-server/data
+kibana/plugins
+kibana/node_modules
+kibana/data
+kibana/share
