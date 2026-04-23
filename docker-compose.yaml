@@ -3,7 +3,7 @@ services:
     container_name: elasticsearch
     volumes:
       - ./elasticsearch/data:/usr/share/elasticsearch/data
-    image: elasticsearch:7.17.17
+    image: docker.io/elasticsearch:7.17.17
     environment:
       - discovery.type=single-node
       # - xpack.security.enabled=true
@@ -17,11 +17,11 @@ services:
     container_name: apm-server
     volumes:
       - ./apm-server/data:/usr/share/apm-server/data
-    image: elastic/apm-server:7.17.17
+    image: docker.io/elastic/apm-server:7.17.17
     ports:
       - "8200:8200"
-    environment:
-      - ELASTIC_APM_SERVER_SECRET_TOKEN=my_secret_token
+    # environment:
+    #   - ELASTIC_APM_SERVER_SECRET_TOKEN=my_secret_token
     networks:
       - elastic
     # volumes:
@@ -30,7 +30,7 @@ services:
 
   kibana:
     container_name: kibana
-    image: kibana:7.17.17
+    image: docker.io/kibana:7.17.17
     volumes:
       - ./kibana/config:/usr/share/kibana/config
       # - ./kibana/plugins:/usr/share/kibana/plugins
