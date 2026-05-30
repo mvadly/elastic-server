@@ -1,0 +1,8 @@
+discovery.type: single-node
+http.host: 0.0.0.0
+
+# Override disk watermark thresholds because the 9p filesystem (WSL/D: drive)
+# may report high disk usage or the disk is nearly full
+cluster.routing.allocation.disk.watermark.low: 99%
+cluster.routing.allocation.disk.watermark.high: 99%
+cluster.routing.allocation.disk.watermark.flood_stage: 99%
